@@ -137,7 +137,7 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
         else {
             subTreeNode.setDepth(level);
             setDepthHelper(subTreeNode.getLeftChild(),level+1);
-            setDepthHelper(subTreeNode.getLeftChild(),level+1);
+            setDepthHelper(subTreeNode.getRightChild(),level+1);
         }
     }
 

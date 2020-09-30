@@ -113,4 +113,9 @@ public class Rectangle implements Comparable<Rectangle> {
         return this.name.compareTo(rhs.getname());
     }
     
+    public String toString() {
+        return ("(" + this.name + ", " + (int)Math.round(this.coordX)
+            + ", " + (int)Math.round(this.coordY) + ", " + (int)Math.round(
+                this.width) + ", " + (int)Math.round(this.height) + ")");
+    }
 }
