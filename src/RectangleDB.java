@@ -41,10 +41,6 @@ public class RectangleDB {
      * @throws FileNotFoundException 
      */
     public static void main(String[] args) throws FileNotFoundException {
-        if (args.length != 1) {
-            System.out.println("Bad argument count. Usage: "+ "RectangleDB <command-file>");
-            return;
-        }
 
         // scanner object to parse the command file
         Scanner sc;

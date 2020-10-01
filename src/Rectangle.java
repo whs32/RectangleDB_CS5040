@@ -93,11 +93,11 @@ public class Rectangle implements Comparable<Rectangle> {
      * 
      * @return   True if the point lies on this canvas.
      */
-    public boolean hasPoint(int x, int y) {
+    /*public boolean hasPoint(int x, int y) {
         return (x >= getX()) && (x < getX() + getWidth())
                 && (y >= getY()) && (y < getY() + getHeight());
     }
-    
+    */
     /**
      * Basic compare function
      * 

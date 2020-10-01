@@ -1,8 +1,10 @@
 /**
  * Stub for Node class
  * 
- * @author CS Staff
+ * @author Lihui Zhang/lihuiz
+ * @author Haosu Wang/whaosu
  * @param <T> the generic type; extends Comparable
+ * @param <E> the generic type; extends Comparable
  */
 
 public class Node<T extends Comparable<T>, E extends Comparable<E>> {
