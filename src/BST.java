@@ -123,6 +123,50 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
         return subTreeNode;
     }
     
+    private Node<T,E> removeMax(Node<T,E> subTreeNode){
+        if(subTreeNode.getRightChild() == null) {
+            return subTreeNode.getLeftChild();
+        }
+        subTreeNode.setRightChild(removeMax(subTreeNode.getRightChild()));
+        return subTreeNode;
+    }
+    
+    private Node<T,E> getMax(Node<T,E> subTreeNode){
+        if(subTreeNode.getRightChild() == null) {
+            return subTreeNode;
+        }
+        return getMax(subTreeNode.getRightChild());
+    }
+    
+    
+    
+    private Node<T,E> removeHelper(Node<T,E> subTreeNode, T target) {
+        if(subTreeNode == null) {
+            return null;
+        }
+        
+        if(subTreeNode.getData().compareTo(target)>0) {
+            subTreeNode.setLeftChild(removeHelper(subTreeNode.getLeftChild(),target));
+        }
+        
+        else if(subTreeNode.getData().compareTo(target)<0) {
+            subTreeNode.setRightChild(removeHelper(subTreeNode.getRightChild(),target));
+        }
+        
+        else {//found it
+            if(subTreeNode.getLeftChild() == null)
+                return subTreeNode.getRightChild();
+            else if(subTreeNode.getRightChild() == null)
+                return subTreeNode.getLeftChild();
+            else {
+                Node<T,E> temp = getMax(subTreeNode.getLeftChild());
+                subTreeNode.setData(temp.getData());
+                subTreeNode.setLeftChild(removeMax(subTreeNode.getLeftChild()));
+            }
+        }
+        return subTreeNode;
+    }
+    
     /**
      * the helper to set node's depth
      * @param subTreeNode 
@@ -174,12 +218,32 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
      *         false if not found
      */
     public boolean search(T target) {
-
         if (findNodeHelper(root, target) == null) {
             return false;
         }
         this.searchAllHelper(root, target);
         return true;
     }
+    
+    
+    public boolean remove(T target) {
+        if(target == null) {
+            return false;
+        }
+        if(root == null) {
+            return false;
+        }
+        
+        T targetFound = findNodeHelper(root, target);
+        
+        while(targetFound != null) {
+            root = removeHelper(root, target);
+            targetFound = findNodeHelper(root, target);
+            nodecount--;
+        }
+        
+        return true;
+    }
+    
     
 }

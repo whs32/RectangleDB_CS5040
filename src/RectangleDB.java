@@ -68,10 +68,10 @@ public class RectangleDB {
             }
             else if (cmd.equals("regionsearch")) {
                 requestHandler.regionsearch(sc.nextLine());
-            }
-            else if (cmd.equals("remove")) {
-                requestHandler.remove(sc.next(), sc.nextLine());
             }*/
+            else if (cmd.equals("remove")) {
+                requestHandler.remove(bst, sc.nextLine());
+            }
             else if (cmd.equals("insert")) {
                 requestHandler.insert(bst, sc.next(), sc.nextLine());
             }

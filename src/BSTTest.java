@@ -22,7 +22,7 @@ public class BSTTest extends TestCase {
     private Rectangle h;
     private Rectangle p;
     private Rectangle l;
-    
+    private Rectangle c;
     /**
      * setUp the condition.
      */
@@ -39,6 +39,7 @@ public class BSTTest extends TestCase {
         h = new Rectangle("h", 0, 1, 4, 1);
         p = new Rectangle("p", 6, 3, 3, 1);
         l = new Rectangle("l", 0, 1, 4, 4);
+        c = new Rectangle("c", 0, 1, 4, 4);
     }
 
     /**
@@ -77,6 +78,142 @@ public class BSTTest extends TestCase {
         assertTrue(bst.search(p));
         assertTrue(bst.search(l));
         assertFalse(bst.search(new Rectangle()));
+    }
+    
+    public void testRemove() {
+        bst.insert(a);
+        assertTrue(bst.search(a));
+        bst.remove(a);
+        assertFalse(bst.search(a));
+        assertTrue(bst.isTreeEmpty());
+        bst.insert(a);
+        bst.insert(a2);
+        bst.insert(b);
+        bst.insert(b2);
+        assertTrue(bst.search(a));
+        assertTrue(bst.search(a2));
+        assertTrue(bst.search(b));
+        assertTrue(bst.search(b2));
+        assertTrue(bst.remove(b2));
+        assertFalse(bst.search(b2));
+        assertTrue(bst.search(a));
+        assertTrue(bst.search(a2));
+        assertTrue(bst.search(b));
+        assertTrue(bst.remove(a));
+        assertTrue(bst.remove(a2));
+        assertFalse(bst.search(a));
+        assertFalse(bst.search(a2));
+
+        // test remove an empty tree
+        bst = new BST<Rectangle, String>();
+        assertFalse(bst.remove(a));
+
+        // test remove tree with 1 node only
+        bst.insert(a);
+        assertTrue(bst.remove(a));
+        assertTrue(bst.isTreeEmpty());
+
+        // test remove left child while no right child
+        bst.insert(d);
+        bst.insert(a);
+        assertTrue(bst.remove(a));
+        assertTrue(bst.search(d));
+        assertFalse(bst.search(a));
+
+        // test remove right child while no left child
+        bst = new BST<Rectangle, String>();
+        bst.insert(a);
+        bst.insert(d);
+        assertTrue(bst.remove(d));
+        assertTrue(bst.search(a));
+        assertFalse(bst.search(d));
+
+        // test remove left child
+        bst = new BST<Rectangle, String>();
+        bst.insert(d);
+        bst.insert(a);
+        bst.insert(e);
+        assertTrue(bst.remove(a));
+        assertTrue(bst.search(d));
+        assertTrue(bst.search(e));
+        assertFalse(bst.search(a));
+
+        // test remove right child
+        bst = new BST<Rectangle, String>();
+        bst.insert(d);
+        bst.insert(a);
+        bst.insert(e);
+        assertTrue(bst.remove(e));
+        assertTrue(bst.search(a));
+        assertTrue(bst.search(d));
+        assertFalse(bst.search(e));
+
+        // test remove left child while it has 2 child. its left child < right
+        bst = new BST<Rectangle, String>();
+        bst.insert(d);
+        bst.insert(b);
+        bst.insert(a);
+        bst.insert(c);
+        assertTrue(bst.remove(b));
+        assertTrue(bst.search(a));
+        assertTrue(bst.search(d));
+        assertTrue(bst.search(c));
+        assertFalse(bst.search(b));
+
+        // test remove right child while it has 2 child. its left child < right
+        bst = new BST<Rectangle, String>();
+        bst.insert(a);
+        bst.insert(d);
+        bst.insert(e);
+        bst.insert(c);
+        assertTrue(bst.remove(d));
+        assertTrue(bst.search(a));
+        assertTrue(bst.search(e));
+        assertTrue(bst.search(c));
+        assertFalse(bst.search(d));
+
+        // test remove null
+        bst.remove(null);
+
+        // test remove left child name b when b has a left child
+        bst = new BST<Rectangle, String>();
+        bst.insert(c);
+        bst.insert(b);
+        bst.insert(a);
+        assertTrue(bst.remove(b));
+        assertTrue(bst.search(c));
+        assertTrue(bst.search(a));
+        assertFalse(bst.search(b));
+
+        // test remove left child name a when a has a right child
+        bst = new BST<Rectangle, String>();
+        bst.insert(c);
+        bst.insert(a);
+        bst.insert(b);
+        assertTrue(bst.remove(a));
+        assertTrue(bst.search(c));
+        assertTrue(bst.search(b));
+        assertFalse(bst.search(a));
+
+        // test remove right child name c when c has a left child
+        bst = new BST<Rectangle, String>();
+        bst.insert(a);
+        bst.insert(c);
+        bst.insert(b);
+        assertTrue(bst.remove(c));
+        assertTrue(bst.search(a));
+        assertTrue(bst.search(b));
+        assertFalse(bst.search(c));
+
+        // test remove right child name b when b has a right child
+        bst = new BST<Rectangle, String>();
+        bst.insert(a);
+        bst.insert(b);
+        bst.insert(c);
+        assertTrue(bst.remove(b));
+        assertTrue(bst.search(a));
+        assertTrue(bst.search(c));
+        assertFalse(bst.search(b));
     }
 
     /**

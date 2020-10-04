@@ -13,6 +13,7 @@ public class Node<T extends Comparable<T>, E extends Comparable<E>> {
     private Node<T,E> leftChild;
     private Node<T,E> rightChild;
     private int Depth;
+    //private boolean delflag;
     /**
      * Default Node
      */
@@ -22,6 +23,7 @@ public class Node<T extends Comparable<T>, E extends Comparable<E>> {
         this.leftChild = null;
         this.rightChild = null;
         this.Depth = -1;
+       // this.delflag = false;
     }
     
     public Node(T t) {
@@ -30,6 +32,7 @@ public class Node<T extends Comparable<T>, E extends Comparable<E>> {
         this.leftChild = null;
         this.rightChild = null;
         this.Depth = -1;
+       // this.delflag = false;
     }
     
     public Node<T, E> getLeftChild(){
@@ -78,4 +81,16 @@ public class Node<T extends Comparable<T>, E extends Comparable<E>> {
     public int getDepth() {
         return this.Depth;
     }
+    
+    /*public void actDel() {
+        this.delflag = true;
+    }
+    
+    public void deactDel() {
+        this.delflag = false;
+    }
+    
+    public boolean isDeletTarget() {
+        return this.delflag;
+    }*/
 }

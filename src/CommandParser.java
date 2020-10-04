@@ -30,11 +30,40 @@ public class CommandParser {
             Rectangle toInsert = new Rectangle(Name, words[0], words[1], words[2], words[3]);
 
             bst.insert(toInsert);
-            System.out.println("Rectangle accepted:" + words_String);
+            System.out.println("Rectangle accepted: " + words_String);
         }
         catch (Exception e) {
             // not a good specification for a rectangle found
-            System.out.println("Bad arguments! Use: insert <rect_name>" + " <x> <y> <width> <height>");
+            System.out.println("Rectangle rejected: " + args);
+        }
+    }
+    
+    public void remove(BST<Rectangle,String> bst, String args) {
+        try {
+            if(args.matches("[a-zA-Z][a-zA-Z0-9_]*")) {
+                Rectangle target = new Rectangle(args);
+                if (!bst.remove(target)) {
+                    System.out.println("Rectangle rejected: " + args);
+                }
+            }
+            
+            else {
+                int[] words = scanwords(args);
+                String args_String = String.format("(%d, %d, %d, %d)", words[0], words[1], words[2], words[3]);
+                Node<Rectangle,String> item = bst.root;
+                if(findCoordHelper(item,words) == null) {
+                    System.out.println("Rectangle rejected: " + args_String);
+                }
+                while(findCoordHelper(item,words) != null) {
+                    Rectangle target = findCoordHelper(item,words);
+                    bst.remove(target);
+                    item = bst.root;
+                }
+            }
+        }
+        catch (Exception e) {
+            // not a good specification for a rectangle found
+            System.out.println("Rectangle rejected: " + args);
         }
     }
     
@@ -68,4 +97,23 @@ public class CommandParser {
         return String.format("(%s, %d, %d, %d, %d)", Name, words[0], words[1], words[2], words[3]);
     }
 
+    private Rectangle findCoordHelper(Node<Rectangle,String> bst, int[] words) {
+        
+        if (bst == null) {
+            return null;
+        }
+        if (words == null) {
+            return null;
+        }
+        
+        if (bst.getData().getX() == words[0] && 
+            bst.getData().getY() == words[1] && 
+            bst.getData().getHeight() == words[2]&& 
+            bst.getData().getWidth() == words[3]) {
+            return bst.getData();
+        }
+        else if (findCoordHelper(bst.getLeftChild(), words) == null)
+            return findCoordHelper(bst.getRightChild(), words);
+        else return findCoordHelper(bst.getLeftChild(), words);
+    }
 }

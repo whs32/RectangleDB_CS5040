@@ -40,6 +40,14 @@ public class Rectangle implements Comparable<Rectangle> {
         this.height = height;
     }
     
+    public Rectangle(String name) {
+        this.name = name;
+        this.coordX = 0;
+        this.coordY = 0;
+        this.height = 0;
+        this.width = 0;
+    }
+    
     /**
      * Getter of the name.
      * 
