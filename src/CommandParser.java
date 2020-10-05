@@ -43,7 +43,7 @@ public class CommandParser {
 
             Rectangle toInsert = new Rectangle(Name, 
             		words[0], words[1], words[2], words[3]);
-
+            
             //check if duplicate
             if (bst.findNodeHelper(bst.root, toInsert) != null) {
                 System.out.println("Rectangle rejected: " + words_String);
