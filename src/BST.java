@@ -123,7 +123,14 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
         return subTreeNode;
     }
     
-    private Node<T,E> removeMax(Node<T,E> subTreeNode){
+    /**
+     * remove the node has max value
+     * @param subTreeNode
+     *     root of the subtree
+     * @return
+     *     removed node
+     */
+    private Node<T,E> removeMax(Node<T, E> subTreeNode){
         if(subTreeNode.getRightChild() == null) {
             return subTreeNode.getLeftChild();
         }
@@ -131,7 +138,14 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
         return subTreeNode;
     }
     
-    private Node<T,E> getMax(Node<T,E> subTreeNode){
+    /**
+     * return node has max value of name
+     * @param subTreeNode
+     *     root of the subtree
+     * @return
+     *     node has max value in the tree
+     */
+    private Node<T,E> getMax(Node<T, E> subTreeNode){
         if(subTreeNode.getRightChild() == null) {
             return subTreeNode;
         }
@@ -139,8 +153,16 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
     }
     
     
-    
-    private Node<T,E> removeHelper(Node<T,E> subTreeNode, T target) {
+    /**
+     * remove helper
+     * @param subTreeNode
+     *     root of the subtree
+     * @param target
+     *     target key
+     * @return
+     *     removed node
+     */
+    private Node<T,E> removeHelper(Node<T, E> subTreeNode, T target) {
         if(subTreeNode == null) {
             return null;
         }
@@ -227,7 +249,13 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
         return true;
     }
     
-    
+    /**
+     * remove a node
+     * @param target
+     *     target key
+     * @return
+     *     if remove action has been done
+     */
     public boolean remove(T target) {
         if(target == null) {
             return false;
