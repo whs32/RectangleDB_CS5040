@@ -1,10 +1,17 @@
+Rectangle accepted: (rec1, 1, 1, 10, 10)
 Rectangle rejected: (r_r, -1, -20, 3, 4)
 Rectangle rejected: (rec, 7, -8, 1, 3)
 Rectangle rejected: (virtual_rec0, 1, 1, 0, 0)
 Rectangle rejected: (virtual_REC0, 0, 0, 11, 0)
 Rectangle rejected: (inExistRec_0, 1, 1, -1, -2)
+Rectangle accepted: (rec_1, 2, 2, 30, 30)
+Rectangle accepted: (rec_2, 2, 2, 30, 30)
 BST dump:
 Node has depth 0, Value (null)
 BST size is: 0
 Rectangle rejected: r_r
 Rectangle rejected: (1, 1, 0, 0)
+Rectangle rejected: (0, 0, 1, 1)
+Rectangle rejected: null
+Rectangle rejected: (1, 2, 3, 4)
+Rectangle rejected: (1, a, b, 5)

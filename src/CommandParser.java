@@ -40,6 +40,8 @@ public class CommandParser {
     
     public void remove(BST<Rectangle,String> bst, String args) {
         try {
+            args = args.replace("\n", "");
+            args = args.trim();
             if(args.matches("[a-zA-Z][a-zA-Z0-9_]*")) {
                 Rectangle target = new Rectangle(args);
                 if (!bst.remove(target)) {
@@ -54,16 +56,18 @@ public class CommandParser {
                 if(findCoordHelper(item,words) == null) {
                     System.out.println("Rectangle rejected: " + args_String);
                 }
-                while(findCoordHelper(item,words) != null) {
-                    Rectangle target = findCoordHelper(item,words);
-                    bst.remove(target);
-                    item = bst.root;
+                else {
+                    while(findCoordHelper(item,words) != null) {
+                        Rectangle target = findCoordHelper(item,words);
+                        if(bst.remove(target))
+                        item = bst.root;
+                        }
+                    }
                 }
-            }
         }
         catch (Exception e) {
-            // not a good specification for a rectangle found
-            System.out.println("Rectangle rejected: " + args);
+            args = args.replace(" ", ", ");
+            System.out.println("Rectangle rejected: " + "(" + args +")");
         }
     }
     
@@ -81,7 +85,6 @@ public class CommandParser {
     }
     
     private static int[] scanwords(String args) {
-
         int[] words = new int[4];
         Scanner sc = new Scanner(args);
         for (int i = 0; i < 4; ++i) {
@@ -112,8 +115,11 @@ public class CommandParser {
             bst.getData().getWidth() == words[3]) {
             return bst.getData();
         }
-        else if (findCoordHelper(bst.getLeftChild(), words) == null)
+        else if (findCoordHelper(bst.getLeftChild(), words) == null) {
             return findCoordHelper(bst.getRightChild(), words);
-        else return findCoordHelper(bst.getLeftChild(), words);
+        }
+        else {
+            return findCoordHelper(bst.getLeftChild(), words);
+        }
     }
 }

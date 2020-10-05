@@ -107,8 +107,13 @@ public class BSTTest extends TestCase {
         // test remove an empty tree
         bst = new BST<Rectangle, String>();
         assertFalse(bst.remove(a));
+        
+        // test remove an unexisting node
+        bst.insert(a);
+        assertFalse(bst.remove(b));
 
         // test remove tree with 1 node only
+        bst = new BST<Rectangle, String>();
         bst.insert(a);
         assertTrue(bst.remove(a));
         assertTrue(bst.isTreeEmpty());

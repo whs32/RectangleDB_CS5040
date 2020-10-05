@@ -154,10 +154,12 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
         }
         
         else {//found it
-            if(subTreeNode.getLeftChild() == null)
+            if(subTreeNode.getLeftChild() == null) {
                 return subTreeNode.getRightChild();
-            else if(subTreeNode.getRightChild() == null)
+            }
+            else if(subTreeNode.getRightChild() == null) {
                 return subTreeNode.getLeftChild();
+            }
             else {
                 Node<T,E> temp = getMax(subTreeNode.getLeftChild());
                 subTreeNode.setData(temp.getData());
@@ -236,13 +238,17 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
         
         T targetFound = findNodeHelper(root, target);
         
-        while(targetFound != null) {
-            root = removeHelper(root, target);
-            targetFound = findNodeHelper(root, target);
-            nodecount--;
+        if(targetFound == null) {
+            return false;
         }
-        
-        return true;
+        else {
+            while(targetFound != null) {
+                root = removeHelper(root, target);
+                targetFound = findNodeHelper(root, target);
+                nodecount--;
+                }
+            return true;
+        }
     }
     
     
