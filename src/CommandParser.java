@@ -102,7 +102,7 @@ public class CommandParser {
         return String.format("(%s, %d, %d, %d, %d)", Name, words[0], words[1], words[2], words[3]);
     }
 
-    private Rectangle findCoordHelper(Node<Rectangle,String> bst, int[] words) {
+    private Rectangle findCoordHelper(Node<Rectangle, String> bst, int[] words) {
         
         if (bst == null) {
             return null;
@@ -113,7 +113,7 @@ public class CommandParser {
         
         if (bst.getData().getX() == words[0] && 
             bst.getData().getY() == words[1] && 
-            bst.getData().getHeight() == words[2]&& 
+            bst.getData().getHeight() == words[2] && 
             bst.getData().getWidth() == words[3]) {
             return bst.getData();
         }
