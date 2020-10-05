@@ -126,4 +126,12 @@ public class Rectangle implements Comparable<Rectangle> {
             + ", " + (int)Math.round(this.coordY) + ", " + (int)Math.round(
                 this.width) + ", " + (int)Math.round(this.height) + ")");
     }
+    
+    public boolean equals(Rectangle rhs) {
+        if (rhs == null) {
+            throw new IllegalArgumentException("Cant compare to null");
+        }
+        
+        return (this.name.equals(rhs.name) && this.coordX == rhs.coordX && this.coordY == rhs.coordY && this.height == rhs.height && this.width == rhs.width);
+    }
 }
