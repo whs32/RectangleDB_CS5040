@@ -77,7 +77,9 @@ public class CommandParser {
                 "Uncorrect number of arguments in insert");
         }
 
-        if (words[0]<0||words[1]<0||words[2]<=0||words[3]<=0||words[0]+words[2]>1024||words[1]+words[3]>1024) {
+        if (words[0] < 0 || words[1] < 0 || words[2] <= 0 || words[3] <=0 
+                || words[0] + words[2] > 1024 
+                || words[1] + words[3] > 1024) {
             return true;
         }
                 
