@@ -10,12 +10,26 @@ import java.util.Scanner;
  */
 public class CommandParser {
     
+	/**
+	 * dump a tree
+	 * @param bst
+	 *     binary search tree
+	 */
     public void dump(BST<Rectangle, String> bst) {
         System.out.println("BST dump:");
         bst.dump();
     }
     
-    
+    /**
+     * insert a rectangle to rectangle DB
+     * and insert a node to a BST
+     * @param bst
+     *     BST that will be inserted a node
+     * @param Name
+     *     name of the rectangle
+     * @param args
+     *     parameters of the rectangle
+     */
     public void insert(BST<Rectangle, String> bst,String Name, String args) {
         try {
             int[] words = scanwords(args);
@@ -27,7 +41,8 @@ public class CommandParser {
                 return;
             }
 
-            Rectangle toInsert = new Rectangle(Name, words[0], words[1], words[2], words[3]);
+            Rectangle toInsert = new Rectangle(Name, 
+            		words[0], words[1], words[2], words[3]);
 
             bst.insert(toInsert);
             System.out.println("Rectangle accepted: " + words_String);
@@ -38,20 +53,29 @@ public class CommandParser {
         }
     }
     
+    /**
+     * remove a rectangle by name or by coordinates and shape
+     * @param bst
+     *     BST that store rectangles
+     * @param args
+     *     parameters of the rectangle that to be removed
+     */
     public void remove(BST<Rectangle,String> bst, String args) {
         try {
             args = args.replace("\n", "");
             args = args.trim();
+            
             if(args.matches("[a-zA-Z][a-zA-Z0-9_]*")) {
                 Rectangle target = new Rectangle(args);
                 if (!bst.remove(target)) {
                     System.out.println("Rectangle rejected: " + args);
                 }
             }
-            
             else {
                 int[] words = scanwords(args);
-                String args_String = String.format("(%d, %d, %d, %d)", words[0], words[1], words[2], words[3]);
+                String args_String = String.format("(%d, %d, %d, %d)", 
+                		words[0], words[1], words[2], words[3]);
+                
                 Node<Rectangle,String> item = bst.root;
                 if(findCoordHelper(item,words) == null) {
                     System.out.println("Rectangle rejected: " + args_String);
@@ -71,6 +95,16 @@ public class CommandParser {
         }
     }
     
+    /**
+     * judge if inserted rectangle in valid
+     * @param name
+     *     name of the rectangle. Consisted of characters and numbers
+     * @param words
+     *     parameters of the rectangle. Width and length must greater than 0.
+     *     The rectangle must be in the range of rectangle world
+     * @return
+     *     is valid
+     */
     public static boolean insertErr(String name,int[] words) {
         if (words.length != 4) {
             throw new IllegalArgumentException(
@@ -86,6 +120,13 @@ public class CommandParser {
         return !name.matches("[a-zA-Z][a-zA-Z0-9_]*");
     }
     
+    /**
+     * read parameters in the command line
+     * @param args
+     *     inputed command line
+     * @return
+     *     parsed command line
+     */
     private static int[] scanwords(String args) {
         int[] words = new int[4];
         Scanner sc = new Scanner(args);
@@ -97,12 +138,29 @@ public class CommandParser {
         return words;
     }
     
+    /**
+     * format parameters in a string
+     * @param Name
+     *     name of the rectangle
+     * @param words
+     *     parameters
+     * @return
+     *     format string
+     */
     private static String WordsToString(String Name, int[] words) {
         
-        return String.format("(%s, %d, %d, %d, %d)", Name, words[0], words[1], words[2], words[3]);
+        return String.format("(%s, %d, %d, %d, %d)",
+                Name, words[0], words[1], words[2], words[3]);
     }
-
-    private Rectangle findCoordHelper(Node<Rectangle, String> bst, int[] words) {
+    
+    /**
+     * helper of traverse BST to find a rectangle has same coordinates and shape
+     * @param bst
+     * @param words
+     * @return
+     */
+    private Rectangle 
+         findCoordHelper(Node<Rectangle, String> bst, int[] words) {
         
         if (bst == null) {
             return null;
