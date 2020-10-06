@@ -1,4 +1,10 @@
-
+/**
+ * Stub for Rectangle class
+ * 
+ * @author Lihui Zhang/lihuiz
+ * @author Haosu Wang/whaosu
+ * @version Oct 2020
+ */
 public class Rectangle implements Comparable<Rectangle> {
     /* The name of the rectangle*/
     private String name;
@@ -15,6 +21,9 @@ public class Rectangle implements Comparable<Rectangle> {
     /* The vertical length of the rectangle. */
     private int height;
 
+    /**
+     * Default
+     */
     public Rectangle() {
         this.name = "";
         this.coordX = 0;
@@ -25,13 +34,12 @@ public class Rectangle implements Comparable<Rectangle> {
     /**
      * Construct a rectangle object.
      *
+     * @param name   The name of the rectangle
      * @param x      The x coordinate of the origin.
      * @param y      The y coordinate of the origin.
      * @param width  The horizontal length of the rectangle.
      * @param height The vertical length of the rectangle.
      */
- 
-    
     public Rectangle(String name, int x, int y, int width, int height) {
         this.name = name;
         this.coordX = x;
@@ -40,6 +48,10 @@ public class Rectangle implements Comparable<Rectangle> {
         this.height = height;
     }
     
+    /**
+     * Construct a rectangle object
+     * @param name The name of the rectangle
+     */
     public Rectangle(String name) {
         this.name = name;
         this.coordX = 0;
@@ -121,17 +133,31 @@ public class Rectangle implements Comparable<Rectangle> {
         return this.name.compareTo(rhs.getname());
     }
     
+    /**
+     * toString function
+     */
+    @Override
     public String toString() {
         return ("(" + this.name + ", " + (int)Math.round(this.coordX)
             + ", " + (int)Math.round(this.coordY) + ", " + (int)Math.round(
                 this.width) + ", " + (int)Math.round(this.height) + ")");
     }
     
-    public boolean equals(Rectangle rhs) {
+    /**
+     * Check if an rectangle equal to another
+     * @param rhs
+     *           rectangle to compare to
+     * @return true if equals
+     */
+    public boolean dimequals(Rectangle rhs) {
         if (rhs == null) {
             throw new IllegalArgumentException("Cant compare to null");
         }
         
-        return (this.name.equals(rhs.name) && this.coordX == rhs.coordX && this.coordY == rhs.coordY && this.height == rhs.height && this.width == rhs.width);
+        return (this.name.equals(rhs.name) && 
+            this.coordX == rhs.coordX && 
+            this.coordY == rhs.coordY && 
+            this.height == rhs.height && 
+            this.width == rhs.width);
     }
 }

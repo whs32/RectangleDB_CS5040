@@ -6,10 +6,16 @@ import java.util.Scanner;
  * @author Lihui Zhang/lihuiz
  * @author Haosu Wang/whaosu
  * 
- * @version 1.0
+ * @version Oct 2020
  */
 public class CommandParser {
     
+    /**
+     * the dump command
+     * 
+     * @param bst
+     *          the BST
+     */
     public void dump(BST<Rectangle, String> bst) {
         System.out.println("BST dump:");
         bst.dump();
@@ -19,37 +25,38 @@ public class CommandParser {
      * the insert command
      * @param bst
      *          the BST
-     * @param Name
+     * @param name
      *          the key(name) of the target
      * @param args
      *          the data(X,Y,W,H) of the target
      */
-    public void insert(BST<Rectangle, String> bst,String Name, String args) {
+    public void insert(BST<Rectangle, String> bst, String name, String args) {
         try {
             int[] words = scanwords(args);
             // rectangle words to print when we are done
-            String words_String = WordsToString(Name, words);
+            String wordsToString = wordsToString(name, words);
 
-            if (insertErr(Name,words)) {
-                System.out.println("Rectangle rejected: " + words_String);
+            if (insertErr(name, words)) {
+                System.out.println("Rectangle rejected: " + wordsToString);
                 return;
             }
 
-            Rectangle toInsert = new Rectangle(Name, words[0], words[1], words[2], words[3]);
+            Rectangle toInsert = new Rectangle(name, 
+                words[0], words[1], words[2], words[3]);
 
             //check if duplicate
             if (bst.hasRecord(bst.root, toInsert)) {
-                System.out.println("Rectangle rejected: " + words_String);
+                System.out.println("Rectangle rejected: " + wordsToString);
                 return;
             }
             else {
                 bst.insert(toInsert);
-                System.out.println("Rectangle accepted: " + words_String);
+                System.out.println("Rectangle accepted: " + wordsToString);
             }
         }
         catch (Exception e) {
             // not a good specification for a rectangle found
-            System.out.println("Rectangle rejected: " + Name + args);
+            System.out.println("Rectangle rejected: " + name + args);
         }
     }
     
@@ -60,11 +67,11 @@ public class CommandParser {
      * @param args
      *          the target to remove
      */
-    public void remove(BST<Rectangle,String> bst, String args) {
+    public void remove(BST<Rectangle, String> bst, String args) {
         try {
             args = args.replace("\n", "");
             args = args.trim();
-            if(args.matches("[a-zA-Z][a-zA-Z0-9_]*")) {
+            if (args.matches("[a-zA-Z][a-zA-Z0-9_]*")) {
                 Rectangle target = new Rectangle(args);
                 if (!bst.remove(target)) {
                     System.out.println("Rectangle rejected: " + args);
@@ -73,24 +80,25 @@ public class CommandParser {
             
             else {
                 int[] words = scanwords(args);
-                String args_String = String.format("(%d, %d, %d, %d)", words[0], words[1], words[2], words[3]);
+                String argsToString = String.format("(%d, %d, %d, %d)", 
+                    words[0], words[1], words[2], words[3]);
                 if (removeErr(words)) {
-                    System.out.println("Rectangle rejected: " + args_String);
+                    System.out.println("Rectangle rejected: " + argsToString);
                     return;
                 }
-                Node<Rectangle,String> item = bst.root;
-                if(findCoordHelper(item,words) == null) {
-                    System.out.println("Rectangle rejected: " + args_String);
+                Node<Rectangle, String> item = bst.root;
+                if (findCoordHelper(item, words) == null) {
+                    System.out.println("Rectangle rejected: " + argsToString);
                 }
                 else {
-                    Rectangle target = findCoordHelper(item,words);
-                    bst.removedim(bst.root, target);
+                    Rectangle target = findCoordHelper(item, words);
+                    bst.removeDim(bst.root, target);
                 }
             }
         }
         catch (Exception e) {
             args = args.replace(" ", ", ");
-            System.out.println("Rectangle rejected: " + "(" + args +")");
+            System.out.println("Rectangle rejected: " + "(" + args + ")");
         }
     }
     
@@ -101,15 +109,18 @@ public class CommandParser {
      *          the key(name) of the target
      * @param words
      *          the data(X,Y,W,H) of the target
-     * @return
+     * @return true if there are some errors
+     *         false if there is no error
      */
-    public static boolean insertErr(String name,int[] words) {
+    public static boolean insertErr(String name, int[] words) {
         if (words.length != 4) {
             throw new IllegalArgumentException(
                 "Uncorrect number of arguments in insert");
         }
 
-        if (words[0]<0||words[1]<0||words[2]<=0||words[3]<=0||words[0]+words[2]>1024||words[1]+words[3]>1024) {
+        if (words[0] < 0 || words[1] < 0 || words[2] <= 0 || 
+            words[3] <= 0 || words[0] + words[2] > 1024 || 
+            words[1] + words[3] > 1024) {
             return true;
         }
         
@@ -117,19 +128,36 @@ public class CommandParser {
         return !name.matches("[a-zA-Z][a-zA-Z0-9_]*");
     }
     
+    /**
+     * to judge if there are some remove errors
+     * @param words
+     *           the dimension of the target
+     * @return true if there are some errors
+     *         false if there is no error
+     */
+    
     public static boolean removeErr(int[] words) {
         if (words.length == 4) {
-            if (words[0]<0||words[1]<0||words[2]<=0||words[3]<=0||words[0]+words[2]>1024||words[1]+words[3]>1024) {
+            if (words[0] < 0 || words[1] < 0 || words[2] <= 0 || 
+                words[3] <= 0 || words[0] + words[2] > 1024 || 
+                words[1] + words[3] > 1024) {
                 return true;
             }
 
-            if (Integer.valueOf(words[2]) <= 0 || Integer.valueOf(words[3]) <= 0) {
+            if (Integer.valueOf(words[2]) <= 0 || 
+                Integer.valueOf(words[3]) <= 0) {
                 return true;
             }
         }
         return false;
     }
     
+    /**
+     * change the dimension String into int
+     * @param args
+     *          the target to change
+     * @return the changed target
+     */
     private static int[] scanwords(String args) {
         int[] words = new int[4];
         Scanner sc = new Scanner(args);
@@ -141,12 +169,31 @@ public class CommandParser {
         return words;
     }
     
-    private static String WordsToString(String Name, int[] words) {
+    /**
+     * formalize the target to String
+     * @param name
+     *          the name of the target
+     * @param words
+     *          the dimension of the target
+     * @return the formalized target
+     */
+    private static String wordsToString(String name, int[] words) {
         
-        return String.format("(%s, %d, %d, %d, %d)", Name, words[0], words[1], words[2], words[3]);
+        return String.format("(%s, %d, %d, %d, %d)", 
+            name, words[0], words[1], words[2], words[3]);
     }
 
-    private Rectangle findCoordHelper(Node<Rectangle,String> bst, int[] words) {
+    /**
+     * find the target by dimension
+     * @param bst
+     *          the BST
+     * @param words
+     *          the dimension to search
+     * @return the found target
+     */
+    private Rectangle findCoordHelper(
+        Node<Rectangle, String> bst, 
+        int[] words) {
         
         if (bst == null) {
             return null;
@@ -157,7 +204,7 @@ public class CommandParser {
         
         if (bst.getData().getX() == words[0] && 
             bst.getData().getY() == words[1] && 
-            bst.getData().getWidth() == words[2]&& 
+            bst.getData().getWidth() == words[2] && 
             bst.getData().getHeight() == words[3]) {
             return bst.getData();
         }

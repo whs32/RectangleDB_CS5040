@@ -2,13 +2,6 @@
  ¡¢¡¢* Rectangle database
  */
 
-/**
- * The class containing the main method.
- * 
- * @author Haosu Wang/whaosu
- * @author Lihui Zhang/lihuiz
- * @version 1.0
- */
 
 // On my honor:
 //
@@ -34,6 +27,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+/**
+ * The class containing the main method.
+ * 
+ * @author Haosu Wang/whaosu
+ * @author Lihui Zhang/lihuiz
+ * @version 2020.10.6
+ */
 public class RectangleDB {
     /**
      * @param args

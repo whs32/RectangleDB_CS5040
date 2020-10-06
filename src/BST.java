@@ -3,13 +3,14 @@
  * 
  * @author Lihui Zhang/lihuiz
  * @author Haosu Wang/whaosu
+ * @version Oct 2020
  * @param <T> the generic type; extends Comparable
  * @param <E> the generic type; extends Comparable
  */
-public class BST<T extends Comparable<T>, E extends Comparable<E>>{
+public class BST<T extends Comparable<T>, E extends Comparable<E>> {
 
     /** The root. */
-    protected Node<T,E> root;
+    protected Node<T, E> root;
 
     /** The size. */
     private int nodecount;
@@ -40,11 +41,13 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
      *           the target record
      * @return true if found
      */
-    public boolean hasRecord(Node<Rectangle,String> subTreeNode, Rectangle target) {
-        if(subTreeNode == null) {
+    public boolean hasRecord(
+        Node<Rectangle, String> subTreeNode, 
+        Rectangle target) {
+        if (subTreeNode == null) {
             return false;
         }
-        if(target == null) {
+        if (target == null) {
             return false;
         }
         Rectangle rec = subTreeNode.getData();
@@ -52,7 +55,8 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
             return true;
         }
         
-        return hasRecord(subTreeNode.getLeftChild(), target) || hasRecord(subTreeNode.getRightChild(),target);
+        return hasRecord(subTreeNode.getLeftChild(), target) || 
+            hasRecord(subTreeNode.getRightChild(), target);
     }
     
     /**
@@ -119,7 +123,9 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
         if (subTreeNode != null) {
             dumpHelper(subTreeNode.getLeftChild());
             if (subTreeNode != null) {
-                System.out.println("Node has depth " + subTreeNode.getDepth()+ ", Value " + subTreeNode.getData().toString());
+                System.out.println("Node has depth " + 
+                    subTreeNode.getDepth() + ", Value " + 
+                    subTreeNode.getData().toString());
             }
             dumpHelper(subTreeNode.getRightChild());
         }
@@ -136,13 +142,15 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
      */
     private Node<T, E> insertHelper(Node<T, E> subTreeNode, T item) {
         if (subTreeNode == null) {
-            return new Node<T, E> (item);
+            return new Node<T, E>(item);
         }
         if (item.compareTo(subTreeNode.getData()) <= 0) {
-            subTreeNode.setLeftChild(this.insertHelper(subTreeNode.getLeftChild(), item));
+            subTreeNode.setLeftChild(this.insertHelper(
+                subTreeNode.getLeftChild(), item));
         }
         else {
-            subTreeNode.setRightChild(this.insertHelper(subTreeNode.getRightChild(), item));
+            subTreeNode.setRightChild(this.insertHelper(
+                subTreeNode.getRightChild(), item));
         }
         return subTreeNode;
     }
@@ -154,16 +162,24 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
      *           the Node
      * @return the Node after removed
      */
-    private Node<T,E> removeMax(Node<T,E> subTreeNode){
-        if(subTreeNode.getRightChild() == null) {
+    private Node<T, E> removeMax(Node<T, E> subTreeNode) {
+        if (subTreeNode.getRightChild() == null) {
             return subTreeNode.getLeftChild();
         }
         subTreeNode.setRightChild(removeMax(subTreeNode.getRightChild()));
         return subTreeNode;
     }
     
-    private Node<Rectangle,String> removeMaxdim(Node<Rectangle,String> subTreeNode){
-        if(subTreeNode.getRightChild() == null) {
+    /**
+     * remove the max Node
+     * 
+     * @param subTreeNode
+     *           the Node
+     * @return the Node after removed
+     */
+    private Node<Rectangle, String> removeMaxdim(
+        Node<Rectangle, String> subTreeNode) {
+        if (subTreeNode.getRightChild() == null) {
             return subTreeNode.getLeftChild();
         }
         subTreeNode.setRightChild(removeMaxdim(subTreeNode.getRightChild()));
@@ -177,51 +193,58 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
      *           the Node
      * @return the max Node
      */
-    private Node<T,E> getMax(Node<T,E> subTreeNode){
-        if(subTreeNode.getRightChild() == null) {
+    private Node<T, E> getMax(Node<T, E> subTreeNode) {
+        if (subTreeNode.getRightChild() == null) {
             return subTreeNode;
         }
         return getMax(subTreeNode.getRightChild());
     }
     
-    private Node<Rectangle,String> getMaxdim(Node<Rectangle,String> subTreeNode){
-        if(subTreeNode.getRightChild() == null) {
+    /**
+     * get the max Node
+     * 
+     * @param subTreeNode
+     *           the Node
+     * @return the max Node
+     */
+    private Node<Rectangle, String> getMaxdim(
+        Node<Rectangle, String> subTreeNode) {
+        if (subTreeNode.getRightChild() == null) {
             return subTreeNode;
         }
         return getMaxdim(subTreeNode.getRightChild());
     }
     
     /**
-     * the Helper to remove the target
+     * the Helper to remove the target by the name
      * 
      * @param subTreeNode
      *           the Node
      * @param target
-     *           the target to remove
+     *           the target(name) to remove
      * @return the Node after removed
      */
-    private Node<T,E> removeHelper(Node<T,E> subTreeNode, T target) {
-        if(subTreeNode == null) {
-            return null;
+    private Node<T, E> removeHelper(Node<T, E> subTreeNode, T target) {
+        if (subTreeNode.getData().compareTo(target) > 0) {
+            subTreeNode.setLeftChild(removeHelper(
+                subTreeNode.getLeftChild(), target));
         }
         
-        if(subTreeNode.getData().compareTo(target)>0) {
-            subTreeNode.setLeftChild(removeHelper(subTreeNode.getLeftChild(),target));
+        else if (subTreeNode.getData().compareTo(target) < 0) {
+            subTreeNode.setRightChild(removeHelper(
+                subTreeNode.getRightChild(), target));
         }
         
-        else if(subTreeNode.getData().compareTo(target)<0) {
-            subTreeNode.setRightChild(removeHelper(subTreeNode.getRightChild(),target));
-        }
-        
-        else {//found it
-            if(subTreeNode.getLeftChild() == null) {
+        //found it
+        else {
+            if (subTreeNode.getLeftChild() == null) {
                 return subTreeNode.getRightChild();
             }
-            else if(subTreeNode.getRightChild() == null) {
+            else if (subTreeNode.getRightChild() == null) {
                 return subTreeNode.getLeftChild();
             }
             else {
-                Node<T,E> temp = getMax(subTreeNode.getLeftChild());
+                Node<T, E> temp = getMax(subTreeNode.getLeftChild());
                 subTreeNode.setData(temp.getData());
                 subTreeNode.setLeftChild(removeMax(subTreeNode.getLeftChild()));
             }
@@ -229,33 +252,45 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
         return subTreeNode;
     }
     
-    private Node<Rectangle,String> removedimhelper(Node<Rectangle,String> subTreeNode, Rectangle target){
-        if (subTreeNode == null) {
-            return null;
-        }
-        if(subTreeNode.getData().compareTo(target)>0) {
-            subTreeNode.setLeftChild(removedimhelper(subTreeNode.getLeftChild(),target));
+    /**
+     * the Helper to remove by dimension
+     * @param subTreeNode
+     *           the Node
+     * @param target
+     *           the target(dimension) to remove
+     * @return the Node after removed
+     */
+    private Node<Rectangle, String> removeDimhelper(
+        Node<Rectangle, String> subTreeNode, 
+        Rectangle target) {
+        if (subTreeNode.getData().compareTo(target) > 0) {
+            subTreeNode.setLeftChild(removeDimhelper(
+                subTreeNode.getLeftChild(), target));
         }
         
-        else if(subTreeNode.getData().compareTo(target)<0) {
-            subTreeNode.setRightChild(removedimhelper(subTreeNode.getRightChild(),target));
+        else if (subTreeNode.getData().compareTo(target) < 0) {
+            subTreeNode.setRightChild(removeDimhelper(
+                subTreeNode.getRightChild(), target));
         }
         
-        else if (!subTreeNode.getData().equals(target)) {
-            subTreeNode.setLeftChild(removedimhelper(subTreeNode.getLeftChild(),target));
+        else if (!subTreeNode.getData().dimequals(target)) {
+            subTreeNode.setLeftChild(removeDimhelper(
+                subTreeNode.getLeftChild(), target));
         }
         
         else {
-            if(subTreeNode.getLeftChild() == null) {
+            if (subTreeNode.getLeftChild() == null) {
                 return subTreeNode.getRightChild();
             }
-            else if(subTreeNode.getRightChild() == null) {
+            else if (subTreeNode.getRightChild() == null) {
                 return subTreeNode.getLeftChild();
             }
             else {
-                Node<Rectangle,String> temp = getMaxdim(subTreeNode.getLeftChild());
+                Node<Rectangle, String> temp = getMaxdim(
+                    subTreeNode.getLeftChild());
                 subTreeNode.setData(temp.getData());
-                subTreeNode.setLeftChild(removeMaxdim(subTreeNode.getLeftChild()));
+                subTreeNode.setLeftChild(removeMaxdim(
+                    subTreeNode.getLeftChild()));
             }
         }
         return subTreeNode;
@@ -269,14 +304,14 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
      * @param level
      *          the depth of the node 
      */
-    private void setDepthHelper(Node<T,E> subTreeNode, int level) {
-        if(subTreeNode == null) {
+    private void setDepthHelper(Node<T, E> subTreeNode, int level) {
+        if (subTreeNode == null) {
             return;
         }
         else {
             subTreeNode.setDepth(level);
-            setDepthHelper(subTreeNode.getLeftChild(),level+1);
-            setDepthHelper(subTreeNode.getRightChild(),level+1);
+            setDepthHelper(subTreeNode.getLeftChild(), level + 1);
+            setDepthHelper(subTreeNode.getRightChild(), level + 1);
         }
     }
 
@@ -285,7 +320,7 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
      * @param item
      *          the item to insert
      */
-    public void insert(T item){
+    public void insert(T item) {
         root = insertHelper(root, item);
         nodecount++;
     }
@@ -329,16 +364,16 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
      *         false if failed
      */
     public boolean remove(T target) {
-        if(target == null) {
+        if (target == null) {
             return false;
         }
-        if(root == null) {
+        if (root == null) {
             return false;
         }
         
         T targetFound = findNodeHelper(root, target);
         
-        if(targetFound == null) {
+        if (targetFound == null) {
             return false;
         }
         else {
@@ -348,8 +383,15 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
         }
     }
     
-    public void removedim(Node<Rectangle,String> bst, Rectangle target) {
-        bst = removedimhelper(bst, target);
+    /**
+     * remove the target by dimension
+     * @param bst
+     *         the BST
+     * @param target
+     *         the target to remove
+     */
+    public void removeDim(Node<Rectangle, String> bst, Rectangle target) {
+        bst = removeDimhelper(bst, target);
         nodecount--;
     }
     

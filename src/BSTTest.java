@@ -6,7 +6,7 @@ import student.TestCase;
  *
  * @author Lihui Zhang/lihuiz
  * @author Haosu Wang/whaosu
- * @version 1.0
+ * @version Oct 2020
  */
 public class BSTTest extends TestCase {
 
@@ -80,6 +80,9 @@ public class BSTTest extends TestCase {
         assertFalse(bst.search(new Rectangle()));
     }
     
+    /**
+     * Test remove.
+     */
     public void testRemove() {
         bst.insert(a);
         assertTrue(bst.search(a));
@@ -220,6 +223,31 @@ public class BSTTest extends TestCase {
         assertTrue(bst.search(c));
         assertFalse(bst.search(b));
     }
+    
+    /**
+     * test hasRecord
+     */
+    public void testHasRecord() {
+        bst = new BST<Rectangle, String>();
+        assertFalse(bst.hasRecord(bst.root, a));
+        bst.insert(a);
+        assertFalse(bst.hasRecord(bst.root, null));
+        assertTrue(bst.hasRecord(bst.root, a));
+        assertFalse(bst.hasRecord(bst.root, b));
+        
+        bst = new BST<Rectangle, String>();
+        bst.insert(a);
+        bst.insert(b);
+        assertTrue(bst.hasRecord(bst.root, a));
+        assertTrue(bst.hasRecord(bst.root, b));
+        
+        bst = new BST<Rectangle, String>();
+        bst.insert(b);
+        bst.insert(a);
+        assertTrue(bst.hasRecord(bst.root, a));
+        assertTrue(bst.hasRecord(bst.root, b));
+    }
+    
 
     /**
      * test dump

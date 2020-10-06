@@ -6,7 +6,7 @@
  *
  * @author Lihui Zhang/lihuiz
  * @author Haosu Wang/whaosu
- * @version 1.0
+ * @version Oct 2020
  */
 /*
 public class CommandParserTest extends TestCase{
