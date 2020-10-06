@@ -31,7 +31,15 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
         return (root == null);
     }
     
-    
+    /**
+     * Check if has record in subTreeNode
+     * 
+     * @param subTreeNode
+     *           the Node
+     * @param target
+     *           the target record
+     * @return true if found
+     */
     public boolean hasRecord(Node<Rectangle,String> subTreeNode, Rectangle target) {
         if(subTreeNode == null) {
             return false;
@@ -139,6 +147,13 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
         return subTreeNode;
     }
     
+    /**
+     * remove the max Node
+     * 
+     * @param subTreeNode
+     *           the Node
+     * @return the Node after removed
+     */
     private Node<T,E> removeMax(Node<T,E> subTreeNode){
         if(subTreeNode.getRightChild() == null) {
             return subTreeNode.getLeftChild();
@@ -147,6 +162,21 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
         return subTreeNode;
     }
     
+    private Node<Rectangle,String> removeMaxdim(Node<Rectangle,String> subTreeNode){
+        if(subTreeNode.getRightChild() == null) {
+            return subTreeNode.getLeftChild();
+        }
+        subTreeNode.setRightChild(removeMaxdim(subTreeNode.getRightChild()));
+        return subTreeNode;
+    }
+    
+    /**
+     * get the max Node
+     * 
+     * @param subTreeNode
+     *           the Node
+     * @return the max Node
+     */
     private Node<T,E> getMax(Node<T,E> subTreeNode){
         if(subTreeNode.getRightChild() == null) {
             return subTreeNode;
@@ -154,8 +184,22 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
         return getMax(subTreeNode.getRightChild());
     }
     
+    private Node<Rectangle,String> getMaxdim(Node<Rectangle,String> subTreeNode){
+        if(subTreeNode.getRightChild() == null) {
+            return subTreeNode;
+        }
+        return getMaxdim(subTreeNode.getRightChild());
+    }
     
-    
+    /**
+     * the Helper to remove the target
+     * 
+     * @param subTreeNode
+     *           the Node
+     * @param target
+     *           the target to remove
+     * @return the Node after removed
+     */
     private Node<T,E> removeHelper(Node<T,E> subTreeNode, T target) {
         if(subTreeNode == null) {
             return null;
@@ -183,6 +227,39 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
             }
         }
         return subTreeNode;
+    }
+    
+    private Node<Rectangle,String> removedimhelper(Node<Rectangle,String> subTreeNode, Rectangle target){
+        if (subTreeNode == null) {
+            return null;
+        }
+        if(subTreeNode.getData().compareTo(target)>0) {
+            subTreeNode.setLeftChild(removedimhelper(subTreeNode.getLeftChild(),target));
+        }
+        
+        else if(subTreeNode.getData().compareTo(target)<0) {
+            subTreeNode.setRightChild(removedimhelper(subTreeNode.getRightChild(),target));
+        }
+        
+        else if (!subTreeNode.getData().equals(target)) {
+            subTreeNode.setLeftChild(removedimhelper(subTreeNode.getLeftChild(),target));
+        }
+        
+        else {
+            if(subTreeNode.getLeftChild() == null) {
+                return subTreeNode.getRightChild();
+            }
+            else if(subTreeNode.getRightChild() == null) {
+                return subTreeNode.getLeftChild();
+            }
+            else {
+                Node<Rectangle,String> temp = getMaxdim(subTreeNode.getLeftChild());
+                subTreeNode.setData(temp.getData());
+                subTreeNode.setLeftChild(removeMaxdim(subTreeNode.getLeftChild()));
+            }
+        }
+        return subTreeNode;
+        
     }
     
     /**
@@ -243,7 +320,14 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
         return true;
     }
     
-    
+    /**
+     * remove the target
+     * 
+     * @param target
+     *           the target to remove
+     * @return true if success
+     *         false if failed
+     */
     public boolean remove(T target) {
         if(target == null) {
             return false;
@@ -262,6 +346,11 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>>{
             nodecount--;
             return true;
         }
+    }
+    
+    public void removedim(Node<Rectangle,String> bst, Rectangle target) {
+        bst = removedimhelper(bst, target);
+        nodecount--;
     }
     
     

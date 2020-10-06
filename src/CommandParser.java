@@ -15,7 +15,15 @@ public class CommandParser {
         bst.dump();
     }
     
-    
+    /**
+     * the insert command
+     * @param bst
+     *          the BST
+     * @param Name
+     *          the key(name) of the target
+     * @param args
+     *          the data(X,Y,W,H) of the target
+     */
     public void insert(BST<Rectangle, String> bst,String Name, String args) {
         try {
             int[] words = scanwords(args);
@@ -45,6 +53,13 @@ public class CommandParser {
         }
     }
     
+    /**
+     * the remove command
+     * @param bst
+     *          the BST
+     * @param args
+     *          the target to remove
+     */
     public void remove(BST<Rectangle,String> bst, String args) {
         try {
             args = args.replace("\n", "");
@@ -69,7 +84,7 @@ public class CommandParser {
                 }
                 else {
                     Rectangle target = findCoordHelper(item,words);
-                    bst.remove(target);
+                    bst.removedim(bst.root, target);
                 }
             }
         }
@@ -79,6 +94,15 @@ public class CommandParser {
         }
     }
     
+    /**
+     * to judge if there are some input errors
+     * 
+     * @param name
+     *          the key(name) of the target
+     * @param words
+     *          the data(X,Y,W,H) of the target
+     * @return
+     */
     public static boolean insertErr(String name,int[] words) {
         if (words.length != 4) {
             throw new IllegalArgumentException(
@@ -133,8 +157,8 @@ public class CommandParser {
         
         if (bst.getData().getX() == words[0] && 
             bst.getData().getY() == words[1] && 
-            bst.getData().getHeight() == words[2]&& 
-            bst.getData().getWidth() == words[3]) {
+            bst.getData().getWidth() == words[2]&& 
+            bst.getData().getHeight() == words[3]) {
             return bst.getData();
         }
         else if (findCoordHelper(bst.getLeftChild(), words) == null) {
