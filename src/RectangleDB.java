@@ -63,17 +63,20 @@ public class RectangleDB {
             if (cmd.equals("dump")) {
                 requestHandler.dump(bst);
             }
-            /*else if (cmd.equals("intersections")) {
-                requestHandler.intersections();
+            else if (cmd.equals("intersections")) {
+                requestHandler.intersections(bst);
             }
             else if (cmd.equals("regionsearch")) {
-                requestHandler.regionsearch(sc.nextLine());
-            }*/
+                requestHandler.regionsearch(bst, sc.nextLine());
+            }
             else if (cmd.equals("remove")) {
                 requestHandler.remove(bst, sc.nextLine());
             }
             else if (cmd.equals("insert")) {
                 requestHandler.insert(bst, sc.next(), sc.nextLine());
+            }
+            else if (cmd.equals("search")) {
+                requestHandler.search(bst, sc.nextLine());
             }
             else {
                 System.out.println("Unrecognized input: |" + cmd + "|");

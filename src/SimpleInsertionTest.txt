@@ -24,3 +24,15 @@ remove null
 remove 1 2 3 4
 remove 1 a b 5
 insert rectangle123 9 8 -1 -1
+regionsearch 2 2 30 50
+regionsearch 2 2 30 30
+regionsearch 2 2 -1 0
+regionsearch 2 32 1 1
+regionsearch -1 -1 1024 1024
+regionsearch 0 0 1 1
+insert a 0 0 1 1
+insert a 100 100 100 100
+insert b 0 0 5 5
+dump
+intersections
+search a

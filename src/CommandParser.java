@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.util.Iterator;
+import java.util.Stack;
 
 /**
  * Handle received commands and arguments for RectangleDB program.
@@ -102,6 +104,81 @@ public class CommandParser {
         }
     }
     
+    public void regionsearch(BST<Rectangle, String> bst, String args) {
+        try {
+            args = args.replace("\n", "");
+            args = args.trim();
+            int[] words = scanwords(args);
+            String argsToString = String.format("(%d, %d, %d, %d)", 
+                words[0], words[1], words[2], words[3]);
+            if (regionErr(words)) {
+                return;
+            }
+            System.out.println("Rectangles intersecting region " + argsToString);
+            Rectangle target = new Rectangle("target", words[0], words[1], words[2], words[3]);
+            BSTIterator b = new BSTIterator(bst.root);
+            while(b.hasNext()) {
+                Node<Rectangle, String> next = b.next();
+                if (isInRegion(target, next.getData()) || isInRegion(next.getData(), target)) {
+                    System.out.println(next.getData().toString());
+                }
+            }
+        }
+        catch (Exception e) {
+        }
+    }
+    
+    public void intersections(BST<Rectangle, String> bst) {
+        try {
+            System.out.println("Intersection pairs:");
+            BSTIterator outer = new BSTIterator(bst.root);
+            int inLoopIndex = 0;
+            int outLoopIndex = 0;
+            while(outer.hasNext()) {
+                Node<Rectangle, String> next1 = outer.next();
+                BSTIterator inner = new BSTIterator(bst.root);
+                while(inner.hasNext()) {
+                    Node<Rectangle, String> next2 = inner.next();
+                    if (inLoopIndex > outLoopIndex) {
+                        if (isIntersect(next1.getData(), next2.getData())) {
+                            System.out.println(next1.getData().toString() + ":" + next2.getData().toString());
+                        }
+                    }
+                    inLoopIndex++;
+                }
+                inLoopIndex = 0;
+                outLoopIndex++;
+            }
+        }
+        catch (Exception e) {
+        }
+    }
+    
+    public void search(BST<Rectangle, String> bst, String name) {
+        try {
+            name = name.replace("\n", "");
+            name = name.trim();
+            Rectangle target =  new Rectangle(name);
+            if (bst.findNodeHelper(bst.root, target) == null) {
+                System.out.println("Rectangle not found:" + name);
+            }
+            else {
+                BSTIterator b = new BSTIterator(bst.root);
+                while(b.hasNext()) {
+                    Node<Rectangle, String> next = b.next();
+                    String nameNode = next.getData().getname();
+                    if (nameNode.equals(name)) {
+                        System.out.println("Rectangle found:" + next.getData().toString());
+                        }
+                }
+            }
+        }
+        catch (Exception e) {
+            System.out.println("Rectangle not found:" + name);
+        }
+        
+    }
+    
     /**
      * to judge if there are some input errors
      * 
@@ -144,6 +221,16 @@ public class CommandParser {
                 return true;
             }
 
+            if (Integer.valueOf(words[2]) <= 0 || 
+                Integer.valueOf(words[3]) <= 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public static boolean regionErr(int[] words) {
+        if (words.length == 4) {
             if (Integer.valueOf(words[2]) <= 0 || 
                 Integer.valueOf(words[3]) <= 0) {
                 return true;
@@ -213,6 +300,84 @@ public class CommandParser {
         }
         else {
             return findCoordHelper(bst.getLeftChild(), words);
+        }
+    }
+    
+    private boolean isInRegion(Rectangle target, Rectangle next) {
+        int tx = target.getX();
+        int tx2 = target.getX() + target.getWidth();
+        int ty = target.getY();
+        int ty2 = target.getY() + target.getHeight();
+        
+        int nx = next.getX();
+        int nx2 = next.getX() + next.getWidth();
+        int ny = next.getY();
+        int ny2 = next.getY() + next.getHeight();
+        
+        while(nx <= nx2) {
+            if((tx < nx) && (tx2 > nx)) {
+                int temp = ny;
+                while(temp <= ny2) {
+                    if((ty < temp) && (temp < ty2)) {
+                        return true;
+                    }
+                    temp++;
+                }
+            }
+            nx++;
+        }
+        return false;
+    }
+    
+    private boolean isIntersect(Rectangle left, Rectangle right) {
+        int lx = left.getX();
+        int lx2 = left.getX() + left.getWidth();
+        int ly = left.getY();
+        int ly2 = left.getY() + left.getHeight();
+        
+        int rx = right.getX();
+        int rx2 = right.getX() + right.getWidth();
+        int ry = right.getY();
+        int ry2 = right.getY() + right.getHeight();
+        
+        return (!(lx >= rx2 || rx >= lx2 || ly >= ry2 || ry >= ly2));
+    }
+    
+    private class BSTIterator implements Iterator<Node<Rectangle, String>> {
+        private Stack<Node<Rectangle, String>> nodeStack =
+            new Stack<Node<Rectangle, String>>();
+
+
+        /**
+         * Iterator constructor, pushes root onto the stack if it is not null
+         */
+        public BSTIterator(Node<Rectangle, String> root) {
+            if (root != null) {
+                nodeStack.push(root);
+            }
+        }
+
+
+        /** Checks if iterator has another node in the stack */
+        public boolean hasNext() {
+            return !(nodeStack.isEmpty());
+        }
+
+
+        /** Pushes a node onto the stack if it's not null */
+        public Node<Rectangle, String> next() {
+            Node<Rectangle, String> current = null;
+            if (hasNext()) {
+                current = nodeStack.peek();
+                nodeStack.pop();
+                if (current.getRightChild() != null) {
+                    nodeStack.push(current.getRightChild());
+                }
+                if (current.getLeftChild() != null) {
+                    nodeStack.push(current.getLeftChild());
+                }
+            }
+            return current;
         }
     }
 }
