@@ -4,8 +4,10 @@ import java.nio.file.Paths;
 import student.TestCase;
 
 /**
- * @author {Your Name Here}
- * @version {Put Something Here}
+ * test RectangleDB
+ * @author Haosu Wang/whaosu
+ * @author Lihui Zhang/lihuiz
+ * @version Oct 2020
  */
 public class RectangleDBTest extends TestCase {
     /**

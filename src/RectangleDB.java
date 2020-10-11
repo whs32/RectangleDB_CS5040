@@ -32,7 +32,7 @@ import java.util.Scanner;
  * 
  * @author Haosu Wang/whaosu
  * @author Lihui Zhang/lihuiz
- * @version 2020.10.6
+ * @version Oct 2020
  */
 public class RectangleDB {
     /**
@@ -52,31 +52,30 @@ public class RectangleDB {
             System.out.println(e.getMessage());
             return;
         }
-        //create a new binary search tree
+
         BST<Rectangle, String> bst = new BST<Rectangle, String>();
-        //A handler object to channel commands to the BST object.
-        CommandParser requestHandler = new CommandParser();
+        CommandParser handler = new CommandParser();
 
         while (sc.hasNext()) {
             String cmd = sc.next();
 
             if (cmd.equals("dump")) {
-                requestHandler.dump(bst);
+                handler.dump(bst);
             }
             else if (cmd.equals("intersections")) {
-                requestHandler.intersections(bst);
+                handler.intersections(bst);
             }
             else if (cmd.equals("regionsearch")) {
-                requestHandler.regionsearch(bst, sc.nextLine());
+                handler.regionsearch(bst, sc.nextLine());
             }
             else if (cmd.equals("remove")) {
-                requestHandler.remove(bst, sc.nextLine());
+                handler.remove(bst, sc.nextLine());
             }
             else if (cmd.equals("insert")) {
-                requestHandler.insert(bst, sc.next(), sc.nextLine());
+                handler.insert(bst, sc.next(), sc.nextLine());
             }
             else if (cmd.equals("search")) {
-                requestHandler.search(bst, sc.nextLine());
+                handler.search(bst, sc.nextLine());
             }
             else {
                 System.out.println("Unrecognized input: |" + cmd + "|");

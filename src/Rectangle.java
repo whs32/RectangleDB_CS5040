@@ -106,19 +106,6 @@ public class Rectangle implements Comparable<Rectangle> {
     }
     
     /**
-     * Check if a point falls into this rectangle.
-     * 
-     * @param  x X coordinate of the point.
-     * @param  y Y coordinate of the point.
-     * 
-     * @return   True if the point lies on this canvas.
-     */
-    /*public boolean hasPoint(int x, int y) {
-        return (x >= getX()) && (x < getX() + getWidth())
-                && (y >= getY()) && (y < getY() + getHeight());
-    }
-    */
-    /**
      * Basic compare function
      * 
      * @param rhs
@@ -126,10 +113,6 @@ public class Rectangle implements Comparable<Rectangle> {
      */
     @Override
     public int compareTo(Rectangle rhs) {
-        if (rhs == null) {
-            throw new IllegalArgumentException("Cant compare to null");
-        }
-
         return this.name.compareTo(rhs.getname());
     }
     
@@ -149,13 +132,8 @@ public class Rectangle implements Comparable<Rectangle> {
      *           rectangle to compare to
      * @return true if equals
      */
-    public boolean dimequals(Rectangle rhs) {
-        if (rhs == null) {
-            throw new IllegalArgumentException("Cant compare to null");
-        }
-        
-        return (this.name.equals(rhs.name) && 
-            this.coordX == rhs.coordX && 
+    public boolean dimequals(Rectangle rhs) {       
+        return (this.coordX == rhs.coordX && 
             this.coordY == rhs.coordY && 
             this.height == rhs.height && 
             this.width == rhs.width);

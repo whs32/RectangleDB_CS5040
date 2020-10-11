@@ -104,6 +104,13 @@ public class CommandParser {
         }
     }
     
+    /**
+     * the regionsearch command
+     * @param bst
+     *          the BST
+     * @param args
+     *          the region
+     */
     public void regionsearch(BST<Rectangle, String> bst, String args) {
         try {
             args = args.replace("\n", "");
@@ -114,35 +121,44 @@ public class CommandParser {
             if (regionErr(words)) {
                 return;
             }
-            System.out.println("Rectangles intersecting region " + argsToString);
-            Rectangle target = new Rectangle("target", words[0], words[1], words[2], words[3]);
+            System.out.println("Rectangles intersecting region " + 
+                argsToString);
+            Rectangle target = new Rectangle("target", 
+                words[0], words[1], words[2], words[3]);
             BSTIterator b = new BSTIterator(bst.root);
-            while(b.hasNext()) {
+            while (b.hasNext()) {
                 Node<Rectangle, String> next = b.next();
-                if (isInRegion(target, next.getData()) || isInRegion(next.getData(), target)) {
+                if (isInRegion(target, next.getData()) || 
+                    isInRegion(next.getData(), target)) {
                     System.out.println(next.getData().toString());
                 }
             }
         }
         catch (Exception e) {
+            //do nothing if caught exception
         }
     }
     
+    /**
+     * the intersections command
+     * @param bst
+     *           the BST
+     */
     public void intersections(BST<Rectangle, String> bst) {
         try {
             System.out.println("Intersection pairs:");
             BSTIterator outer = new BSTIterator(bst.root);
             int inLoopIndex = 0;
             int outLoopIndex = 0;
-            while(outer.hasNext()) {
+            while (outer.hasNext()) {
                 Node<Rectangle, String> next1 = outer.next();
                 BSTIterator inner = new BSTIterator(bst.root);
-                while(inner.hasNext()) {
+                while (inner.hasNext()) {
                     Node<Rectangle, String> next2 = inner.next();
-                    if (inLoopIndex > outLoopIndex) {
-                        if (isIntersect(next1.getData(), next2.getData())) {
-                            System.out.println(next1.getData().toString() + ":" + next2.getData().toString());
-                        }
+                    if (inLoopIndex > outLoopIndex && 
+                        isIntersect(next1.getData(), next2.getData())) {
+                        System.out.println(next1.getData().toString() + 
+                            ":" + next2.getData().toString());
                     }
                     inLoopIndex++;
                 }
@@ -151,9 +167,17 @@ public class CommandParser {
             }
         }
         catch (Exception e) {
+            //do nothing if caught exception
         }
     }
     
+    /**
+     * the search command
+     * @param bst
+     *           the BST
+     * @param name
+     *           the target's name
+     */
     public void search(BST<Rectangle, String> bst, String name) {
         try {
             name = name.replace("\n", "");
@@ -164,12 +188,13 @@ public class CommandParser {
             }
             else {
                 BSTIterator b = new BSTIterator(bst.root);
-                while(b.hasNext()) {
+                while (b.hasNext()) {
                     Node<Rectangle, String> next = b.next();
                     String nameNode = next.getData().getname();
                     if (nameNode.equals(name)) {
-                        System.out.println("Rectangle found:" + next.getData().toString());
-                        }
+                        System.out.println("Rectangle found:" + 
+                            next.getData().toString());
+                    }
                 }
             }
         }
@@ -229,12 +254,17 @@ public class CommandParser {
         return false;
     }
     
+    /**
+     * to judge if there are some region errors
+     * @param words
+     *           the dimension of the target
+     * @return true if there are some errors
+     *         flase if there is no error
+     */
     public static boolean regionErr(int[] words) {
         if (words.length == 4) {
-            if (Integer.valueOf(words[2]) <= 0 || 
-                Integer.valueOf(words[3]) <= 0) {
-                return true;
-            }
+            return Integer.valueOf(words[2]) <= 0 || 
+                Integer.valueOf(words[3]) <= 0;
         }
         return false;
     }
@@ -303,6 +333,15 @@ public class CommandParser {
         }
     }
     
+    /**
+     * to judge if one Rectangle is in the other Rectangle
+     * @param target
+     *        one of the target Rectangles
+     * @param next
+     *        the other Rectangle
+     * @return true if target Rectangle is in next Rectangle
+     *         false if not
+     */
     private boolean isInRegion(Rectangle target, Rectangle next) {
         int tx = target.getX();
         int tx2 = target.getX() + target.getWidth();
@@ -314,11 +353,11 @@ public class CommandParser {
         int ny = next.getY();
         int ny2 = next.getY() + next.getHeight();
         
-        while(nx <= nx2) {
-            if((tx < nx) && (tx2 > nx)) {
+        while (nx <= nx2) {
+            if ((tx < nx) && (tx2 > nx)) {
                 int temp = ny;
-                while(temp <= ny2) {
-                    if((ty < temp) && (temp < ty2)) {
+                while (temp <= ny2) {
+                    if ((ty < temp) && (temp < ty2)) {
                         return true;
                     }
                     temp++;
@@ -329,6 +368,14 @@ public class CommandParser {
         return false;
     }
     
+    /**
+     * to judge if two Rectangles intersect
+     * @param left
+     *        one of the Rectangles
+     * @param right
+     *        the other Rectangle
+     * @return true if two Rectangles intersect
+     */
     private boolean isIntersect(Rectangle left, Rectangle right) {
         int lx = left.getX();
         int lx2 = left.getX() + left.getWidth();
@@ -343,6 +390,10 @@ public class CommandParser {
         return (!(lx >= rx2 || rx >= lx2 || ly >= ry2 || ry >= ly2));
     }
     
+    /**
+     * Private iterator class that implements a preorder traversal of the BST
+     * implements iterator class and uses stack class
+     */
     private class BSTIterator implements Iterator<Node<Rectangle, String>> {
         private Stack<Node<Rectangle, String>> nodeStack =
             new Stack<Node<Rectangle, String>>();
@@ -358,13 +409,17 @@ public class CommandParser {
         }
 
 
-        /** Checks if iterator has another node in the stack */
+        /** 
+         * Checks if iterator has another node in the stack 
+         */
         public boolean hasNext() {
             return !(nodeStack.isEmpty());
         }
 
 
-        /** Pushes a node onto the stack if it's not null */
+        /** 
+         * Pushes a node onto the stack if it is not null 
+         */
         public Node<Rectangle, String> next() {
             Node<Rectangle, String> current = null;
             if (hasNext()) {

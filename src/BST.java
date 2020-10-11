@@ -122,11 +122,9 @@ public class BST<T extends Comparable<T>, E extends Comparable<E>> {
     private void dumpHelper(Node<T, E> subTreeNode) {
         if (subTreeNode != null) {
             dumpHelper(subTreeNode.getLeftChild());
-            if (subTreeNode != null) {
-                System.out.println("Node has depth " + 
-                    subTreeNode.getDepth() + ", Value " + 
-                    subTreeNode.getData().toString());
-            }
+            System.out.println("Node has depth " + 
+                subTreeNode.getDepth() + ", Value " + 
+                subTreeNode.getData().toString());
             dumpHelper(subTreeNode.getRightChild());
         }
     }

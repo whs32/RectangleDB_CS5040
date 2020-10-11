@@ -253,12 +253,14 @@ public class BSTTest extends TestCase {
      * test dump
      */
     public void testDump() {
+        bst = new BST<Rectangle, String>();
+        assertTrue(bst.isTreeEmpty());
         bst.insert(a);
         bst.insert(a2);
         bst.insert(b);
         bst.insert(b2);
         bst.dump();
-        assertEquals(bst.isTreeEmpty(), false);
+        assertFalse(bst.isTreeEmpty());
     }
     
 }

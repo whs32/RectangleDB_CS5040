@@ -11,6 +11,11 @@ public class RectangleTest extends TestCase {
     private Rectangle default1;
     private Rectangle a;
     private Rectangle b;
+    private Rectangle c;
+    private Rectangle d;
+    private Rectangle e;
+    private Rectangle f;
+    private Rectangle g;
     
     /**
      * set up the Rectangle
@@ -19,6 +24,11 @@ public class RectangleTest extends TestCase {
         default1 = new Rectangle();
         a = new Rectangle("a", 1, 1, 1, 3);
         b = new Rectangle("b");
+        c = new Rectangle("c", 1, 1, 1, 3);
+        d = new Rectangle("d", 2, 1, 1, 3);
+        e = new Rectangle("e", 1, 2, 1, 3);
+        f = new Rectangle("f", 1, 1, 2, 3);
+        g = new Rectangle("c", 1, 1, 1, 4);
     }
     
     /**
@@ -45,4 +55,14 @@ public class RectangleTest extends TestCase {
         assertEquals(0, b.getWidth());
     }
     
+    /**
+     * test dimequals
+     */
+    public void testDimequals() {
+        assertTrue(a.dimequals(c));
+        assertFalse(a.dimequals(d));
+        assertFalse(a.dimequals(e));
+        assertFalse(a.dimequals(f));
+        assertFalse(a.dimequals(g));
+    }
 }
